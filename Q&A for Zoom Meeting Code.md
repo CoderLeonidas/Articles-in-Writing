@@ -74,14 +74,13 @@
 
 
 
-
 ---
 ## Q:
 
 ### 1
 Q: weakself marco define with `__block`
 
-```
+```c++
 #ifndef WEAK_SELF
 #define WEAK_SELF __block __typeof(&*self)weakSelf = self;
 #endif
