@@ -28,7 +28,7 @@
 
 CTextDrawer: 绘制文本
 
-CUserAvatar: 绘制用户头像
+CUserAvatar: 封装用户头像
 
 CmmAvatarList: 管理用户头像列表
 
@@ -42,45 +42,90 @@ CConfImageListMgr: 获取各种图片资源
 
 ## draw_button_bundles:
 
-含有类`CDrawButtonBundles`,封装了按钮各种状态(点击、鼠标等)下绘制的函数l
+含有类`CDrawButtonBundles`,封装了按钮各种状态(点击、鼠标等)下绘制的函数
 
 ## DrawButton
 
 ## media_confui_mgr
 
+含有类`MediaConfUIMgr`， 是UI的管理器，成员变量有ICmmMediaConfAPI、MuBase、CmmAvatarList、CConfImageListMgr、MuSettings、MuLayoutMgr、MuCommunicate、QTranslator等。继承自`MediaConfUIMgrInterface`和`ICmmMediaConfUISink`
+
 ## meida_confui_module
+
+定义了`mu_communicate `类，继承自`ICmmMessageQueueClient` `ISBUIProvider` `MediaConfUIMgr`， 封装了UI创建的主要逻辑，以及消息的同步异步接收、通知等函数
 
 ## mu_base
 
+定义了类：`MediaConfUIMgrInterface` `MuBase` 
+`MediaConfUIMgrInterface `封装了一些UI管理器的基本事件纯虚函数
+
+`MuBase`封装了UI管理器中的基本成员变量
+
 ## mu_communicate
+
+定义了`MuCommunicate`类，集成自`MuBase` `UiCommunicateBase`。封装了cmd相关的事件函数(参数都是json数据)、以及发送事件到vm的一些函数(会写到数据库)
 
 ## mu_dpi_adapter
 
+
+
 ## mu_layout_mgr
 
-## mu_share_render_container
-
-## mu_video_multi_port_container
-
-## mu_video_port
-
-## mu_video_port_base
-
-## mu_video_single_port_container
-
-## mu_video_strip
+定义了`MuLayoutMgr` 类，继承自`MuBase` ，含有`MuVideoWall` `MuVideoStripe` `MuVideoSinglePortContainer` `MuShareRenderContainer` 等对象，负责容器类视图的创建和布局
 
 ## mu_video_wall
 
+定义了`MuVideoWall`类， 继承自`MuVideoMultiPortContainer`，就是我们常说的wall view，是meeting中的顶层容器。
+
+
+## mu_share_render_container
+
+定义了`MuShareRenderContainer`类，继承自`QQuickView` `VideoPortContainerInterface` `INotifcationHandler` `MuBase` 
+
+## mu_video_multi_port_container
+
+定义了`MuVideoMultiPortContainer`类，继承自`QQuickView` `VideoPortContainerInterface` `MuBase`。 port 的容器视图，内部维护了一个ports数组，可以存放多个port，一个port可以对应一个参会者的界面视图。
+
+
+## mu_video_single_port_container
+
+定义了`MuVideoMultiPortContainer`类，继承自`QQuickView` `VideoPortContainerInterface` `MuBase`。 port 的容器视图，内部维护了一个port。
+
+## mu_video_port_base
+
+定义了`MuVideoPortBase`类，继承自`VideoPortInterface` `MuBase`，定义了port的基本元素和操作。
+
+## mu_video_port
+
+定义了`MuVideoPort` 类，继承自`MuVideoPortBase` `INotifcationHandler` 
+
+
+
+## mu_video_strip
+
+定义了`MuVideoStripe`类，继承自`MuVideoMultiPortContainer`。是一个视图。尚不知是干嘛的
+
+
 ## MuZZHostForAudioMgr
+
+zzhost相关
+
 
 ## MuZZHostHelper
 
+zzhost相关
+
 ## PTNotificationCenter
+
+通知相关
 
 ## stdafx
 
+头文件定义
+
 ## UIUtils
+
+
 
 ## win_sign_helper
 
@@ -119,3 +164,29 @@ CConfImageListMgr: 获取各种图片资源
 ## system_info_helper
 
 
+---
+
+# 几个重要的窗口概念：
+
+
+
+```c++
+    struct ParentWnd {
+        CmmInt64 pri_wnd;
+        CmmInt64 wall_wnd;
+        CmmInt64 stripe_wnd;
+        CmmInt64 float_wnd;
+        CmmInt64 setting_wnd;
+        CmmInt64 main_share_wnd;
+        CmmInt64 float_share_wnd;
+        ParentWnd() {
+            pri_wnd         = 0;
+            wall_wnd        = 0;
+            stripe_wnd      = 0;
+            float_wnd       = 0;
+            setting_wnd     = 0;
+            main_share_wnd  = 0;
+            float_share_wnd = 0;
+        }
+    };
+ ```
